@@ -161,25 +161,32 @@
         // Actualizar estadísticas
         function updateStats(stats) {
             const container = document.getElementById('stats-container');
+            
+            // ✅ VALORES POR DEFECTO PARA EVITAR undefined
+            const totalProductos = stats.total_productos || 0;
+            const totalOrdenes = stats.total_ordenes || 0;
+            const productosBlockchain = stats.productos_blockchain || 0;
+            const totalVentas = parseFloat(stats.total_ventas || 0).toFixed(2); // ✅ Ahora seguro
+            
             container.innerHTML = `
                 <div class="bg-white rounded-lg shadow-md p-6 text-center">
                     <i class="fas fa-box text-3xl text-blue-500 mb-3"></i>
-                    <h3 class="text-2xl font-bold text-gray-800">${stats.total_productos}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800">${totalProductos}</h3>
                     <p class="text-gray-600">Productos Totales</p>
                 </div>
                 <div class="bg-white rounded-lg shadow-md p-6 text-center">
                     <i class="fas fa-shopping-cart text-3xl text-green-500 mb-3"></i>
-                    <h3 class="text-2xl font-bold text-gray-800">${stats.total_ordenes}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800">${totalOrdenes}</h3>
                     <p class="text-gray-600">Órdenes Totales</p>
                 </div>
                 <div class="bg-white rounded-lg shadow-md p-6 text-center">
                     <i class="fas fa-link text-3xl text-purple-500 mb-3"></i>
-                    <h3 class="text-2xl font-bold text-gray-800">${stats.productos_blockchain}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800">${productosBlockchain}</h3>
                     <p class="text-gray-600">En Blockchain</p>
                 </div>
                 <div class="bg-white rounded-lg shadow-md p-6 text-center">
                     <i class="fas fa-chart-line text-3xl text-orange-500 mb-3"></i>
-                    <h3 class="text-2xl font-bold text-gray-800">$${parseFloat(stats.total_ventas).toFixed(2)}</h3>
+                    <h3 class="text-2xl font-bold text-gray-800">$${totalVentas}</h3>
                     <p class="text-gray-600">Ventas Totales</p>
                 </div>
             `;
