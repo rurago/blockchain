@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Blockchain - React + Django</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
+                🛒 Tienda Blockchain
+            </h1>
+            <p class="text-xl text-gray-600 mb-8">Aplicación cloud-native con React + Django + Web3</p>
+            
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+                <p class="text-lg text-gray-700 mb-4">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    Frontend React servido por Django
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button onclick="loadProducts()" 
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300">
+                        <i class="fas fa-shopping-cart mr-2"></i>Cargar Productos
+                    </button>
+                    <button onclick="openAddProductModal()" 
+                            class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300">
+                        <i class="fas fa-plus mr-2"></i>Agregar Producto
+                    </button>
+                    <a href="/admin/" 
+                       class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 text-center">
+                       <i class="fas fa-cog mr-2"></i>Admin Django
+                    </a>
+                    <a href="/dashboard/" 
+                       class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 text-center">
+                       <i class="fas fa-code mr-2"></i>Ver Dashboard
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Products Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
+                <i class="fas fa-boxes text-purple-500 mr-3"></i>
+                Productos
+            </h2>
+            <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="text-center text-gray-500 py-8">
+                    <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                    <p>Haz clic en "Cargar Productos"</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">
+                <i class="fas fa-layer-group text-blue-500 mr-3"></i>
+                Stack Tecnológico
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                        <i class="fab fa-react text-blue-500 mr-2"></i>
+                        Frontend
+                    </h3>
+                    <p class="text-gray-600">React + Vite + Redux Toolkit + Tailwind</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                        <i class="fab fa-python text-green-500 mr-2"></i>
+                        Backend
+                    </h3>
+                    <p class="text-gray-600">Django + Django REST Framework</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                        <i class="fas fa-database text-yellow-500 mr-2"></i>
+                        Database
+                    </h3>
+                    <p class="text-gray-600">PostgreSQL + Redis Cache</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                        <i class="fas fa-cloud text-orange-500 mr-2"></i>
+                        Cloud
+                    </h3>
+                    <p class="text-gray-600">AWS (EC2, S3, RDS, CloudFront)</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                        <i class="fas fa-cube text-purple-500 mr-2"></i>
+                        DevOps
+                    </h3>
+                    <p class="text-gray-600">Docker + CI/CD Pipelines</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                        <i class="fas fa-link text-red-500 mr-2"></i>
+                        Blockchain
+                    </h3>
+                    <p class="text-gray-600">Web3.py + Smart Contracts</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-gray-600">
+            <p class="mb-2">
+                <i class="fas fa-code-branch mr-2"></i>
+                Full-Stack: React + Django + Blockchain
+            </p>
+            <p class="text-sm">
+                Arquitectura cloud-native para entrevista técnica
+            </p>
+        </footer>
+    </div>
+
+    <!-- Modal para Agregar Producto -->
+    <div id="addProductModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium text-gray-900">Agregar Nuevo Producto</h3>
+                    <button onclick="closeAddProductModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Form -->
+                <form id="addProductForm" class="space-y-4">
+                    <div>
+                        <label for="productName" class="block text-sm font-medium text-gray-700">Nombre del Producto</label>
+                        <input type="text" id="productName" name="nombre" required 
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="productPrice" class="block text-sm font-medium text-gray-700">Precio ($)</label>
+                        <input type="number" id="productPrice" name="precio" step="0.01" min="0.01" required
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="productStock" class="block text-sm font-medium text-gray-700">Stock</label>
+                        <input type="number" id="productStock" name="stock" min="1" value="10" required
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <div class="flex items-center">
+                            <input id="registerBlockchain" name="register_blockchain" type="checkbox" checked
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="registerBlockchain" class="ml-2 block text-sm text-gray-900">
+                                Registrar en Blockchain
+                            </label>
+                        </div>
+                        <p class="text-xs text-blue-600 mt-1">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Se creará una transacción en Ganache para este producto
+                        </p>
+                    </div>
+                    
+                    <!-- Mensajes de estado -->
+                    <div id="formMessages" class="hidden"></div>
+                    
+                    <!-- Botones -->
+                    <div class="flex space-x-3 pt-4">
+                        <button type="button" onclick="closeAddProductModal()" 
+                                class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-md transition duration-300">
+                            Cancelar
+                        </button>
+                        <button type="submit" 
+                                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            Agregar Producto
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadProducts() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = `
+                <div class="col-span-3 text-center py-4">
+                    <i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i>
+                    <p class="text-gray-600 mt-2">Cargando productos...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/productos/');
+                const products = await response.json();
+                
+                console.log('Productos recibidos:', products); // Para debug
+                
+                // VERIFICAR si products es un array
+                if (!Array.isArray(products)) {
+                    throw new Error('La respuesta no es un array: ' + JSON.stringify(products));
+                }
+
+                if (products.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-3 text-center py-8">
+                            <i class="fas fa-inbox text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600">No hay productos. Crea algunos desde el Admin.</p>
+                            <button onclick="createSampleProducts()" 
+                                    class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                                <i class="fas fa-plus mr-2"></i>Crear Productos de Ejemplo
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // SI products ES UN ARRAY, usar map
+                container.innerHTML = products.map(product => `
+                    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">${product.nombre}</h3>
+                        <p class="text-2xl font-bold text-green-600 mb-3">$${product.precio}</p>
+                        
+                        <!-- Badge Blockchain -->
+                        ${product.on_blockchain ? 
+                            `<div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-3">
+                                <i class="fas fa-link mr-1"></i> En Blockchain
+                            </div>` : 
+                            `<div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mb-3">
+                                <i class="fas fa-unlink mr-1"></i> Solo Local
+                            </div>`
+                        }
+                        
+                        <div class="flex justify-between items-center text-sm text-gray-600">
+                            <span><i class="fas fa-box mr-1"></i> Stock: ${product.stock}</span>
+                            <span><i class="fas fa-user mr-1"></i> ${product.vendedor}</span>
+                        </div>
+                        
+                        <button onclick="buyProduct(${product.id})" 
+                                class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition duration-300">
+                            <i class="fas fa-shopping-cart mr-2"></i>Comprar en Blockchain
+                        </button>
+                        
+                        ${product.blockchain_tx ? 
+                            `<div class="mt-3 text-xs">
+                                <p class="text-gray-500 break-all">TX: ${product.blockchain_tx}</p>
+                            </div>` : ''
+                        }
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error detallado:', error);
+                container.innerHTML = `
+                    <div class="col-span-3 text-center py-8">
+                        <i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
+                        <p class="text-gray-600">Error cargando productos</p>
+                        <p class="text-sm text-gray-500 mt-2">${error.message}</p>
+                        <button onclick="loadProducts()" 
+                                class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                            <i class="fas fa-redo mr-2"></i>Reintentar
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Función para crear productos de ejemplo
+        async function createSampleProducts() {
+            try {
+                const sampleProducts = [
+                    {nombre: "Laptop Gaming", precio: "1500.00", stock: 10},
+                    {nombre: "Mouse Inalámbrico", precio: "25.99", stock: 50},
+                    {nombre: "Teclado Mecánico", precio: "89.99", stock: 15}
+                ];
+
+                for (const product of sampleProducts) {
+                    await fetch('/api/productos/crear/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(product)
+                    });
+                }
+
+                alert('✅ Productos de ejemplo creados!');
+                loadProducts(); // Recargar la lista
+                
+            } catch (error) {
+                alert('❌ Error creando productos: ' + error.message);
+            }
+        }
+
+        async function buyProduct(productId) {
+            try {
+                const response = await fetch('/api/comprar/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({producto_id: productId, cantidad: 1})
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(`✅ ${result.mensaje}\nTX: ${result.orden.blockchain_tx}`);
+                    loadProducts(); // ← ¡ESTA LÍNEA FALTA! Recarga los productos
+                } else {
+                    alert(`❌ Error: ${result.error}`);
+                }
+            } catch (error) {
+                alert(`❌ Error de conexión: ${error.message}`);
+            }
+        }
+
+        // Funciones para el modal de agregar producto
+        function openAddProductModal() {
+            document.getElementById('addProductModal').classList.remove('hidden');
+            document.getElementById('addProductForm').reset();
+            hideFormMessages();
+        }
+
+        function closeAddProductModal() {
+            document.getElementById('addProductModal').classList.add('hidden');
+            hideFormMessages();
+        }
+
+        function hideFormMessages() {
+            const messagesDiv = document.getElementById('formMessages');
+            messagesDiv.classList.add('hidden');
+            messagesDiv.innerHTML = '';
+        }
+
+        function showFormMessage(message, type = 'success') {
+            const messagesDiv = document.getElementById('formMessages');
+            messagesDiv.innerHTML = `
+                <div class="p-3 rounded-lg ${type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}">
+                    <div class="flex items-center">
+                        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'} mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                </div>
+            `;
+            messagesDiv.classList.remove('hidden');
+        }
+
+        // Manejar el envío del formulario
+        document.getElementById('addProductForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const productData = {
+                nombre: formData.get('nombre'),
+                precio: parseFloat(formData.get('precio')),
+                stock: parseInt(formData.get('stock')),
+                register_blockchain: formData.get('register_blockchain') === 'on'
+            };
+            
+            // Validaciones
+            if (!productData.nombre.trim()) {
+                showFormMessage('El nombre del producto es requerido', 'error');
+                return;
+            }
+            
+            if (productData.precio <= 0) {
+                showFormMessage('El precio debe ser mayor a 0', 'error');
+                return;
+            }
+            
+            if (productData.stock <= 0) {
+                showFormMessage('El stock debe ser mayor a 0', 'error');
+                return;
+            }
+            
+            try {
+                // Mostrar loading
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Agregando...';
+                submitBtn.disabled = true;
+                
+                const response = await fetch('/api/productos/crear/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showFormMessage(`✅ Producto "${result.producto.nombre}" creado exitosamente!`);
+                    
+                    // Resetear formulario después de 2 segundos
+                    setTimeout(() => {
+                        this.reset();
+                        hideFormMessages();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // Opcional: cerrar modal automáticamente
+                        // closeAddProductModal();
+                        
+                        // Recargar lista de productos
+                        loadProducts();
+                    }, 2000);
+                    
+                } else {
+                    throw new Error(result.error || 'Error desconocido');
+                }
+                
+            } catch (error) {
+                showFormMessage(`❌ Error: ${error.message}`, 'error');
+                
+                // Rehabilitar botón
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-plus mr-2"></i>Agregar Producto';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('addProductModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddProductModal();
+            }
+        });
+    </script>
+    
+</body>
+</html>

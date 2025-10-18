@@ -1,0 +1,70 @@
+.
+├── app.py
+├── apps
+│   ├── blockchain
+│   │   ├── __pycache__
+│   │   │   ├── apps.cpython-313.pyc
+│   │   │   ├── models.cpython-313.pyc
+│   │   │   ├── services.cpython-313.pyc
+│   │   │   ├── urls.cpython-313.pyc
+│   │   │   └── views.cpython-313.pyc
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── services.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── serializers.py
+│   └── tienda
+│       ├── __pycache__
+│       │   ├── apps.cpython-313.pyc
+│       │   ├── blockchain_service.cpython-313.pyc
+│       │   ├── models.cpython-313.pyc
+│       │   ├── serializers.cpython-313.pyc
+│       │   ├── urls.cpython-313.pyc
+│       │   └── views.cpython-313.pyc
+│       ├── apps.py
+│       ├── blockchain_service.py
+│       ├── migrations
+│       │   ├── 0001_initial.py
+│       │   ├── __init__.py
+│       │   └── __pycache__
+│       │       ├── 0001_initial.cpython-313.pyc
+│       │       └── __init__.cpython-313.pyc
+│       ├── models.py
+│       ├── serializers.py
+│       ├── urls.py
+│       └── views.py
+├── backend
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── settings.cpython-313.pyc
+│   │   ├── urls.cpython-313.pyc
+│   │   └── wsgi.cpython-313.pyc
+│   ├── asgi.py
+│   ├── db.sqlite3
+│   ├── settings
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-313.pyc
+│   │   │   ├── base.cpython-313.pyc
+│   │   │   └── development.cpython-313.pyc
+│   │   ├── base.py
+│   │   └── development.py
+│   ├── urls.py
+│   └── wsgi.py
+├── db.sqlite3
+├── docker-compose.yml
+├── manage.py
+├── requirements.txt
+├── static
+│   ├── css
+│   ├── images
+│   └── js
+├── templates
+│   ├── dashboard.html
+│   ├── index.html
+│   └── welcome.html
+└── tree.txt
+
+17 directories, 51 files

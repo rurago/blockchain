@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Tienda Blockchain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">
+                    📊 Dashboard - Tienda Blockchain
+                </h1>
+                <div class="flex space-x-4">
+                    <a href="/" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300">
+                        <i class="fas fa-store mr-2"></i>Ir a la Tienda
+                    </a>
+                    <button onclick="loadDashboard()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i>Actualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Estadísticas Principales -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Estadísticas Generales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="stats-container">
+                <div class="text-center py-8">
+                    <i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i>
+                    <p class="text-gray-600 mt-2">Cargando estadísticas...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blockchain Info -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                <i class="fas fa-link mr-2"></i>Estado de Blockchain
+            </h2>
+            <div id="blockchain-info-container" class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-center py-4">
+                    <i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i>
+                    <p class="text-gray-600 mt-2">Cargando información blockchain...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Productos -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-boxes mr-2"></i>Productos Registrados
+                </h2>
+                <span class="text-sm text-gray-500" id="productos-count">- productos</span>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blockchain</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TX Hash</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200" id="productos-table-body">
+                        <tr>
+                            <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>Cargando productos...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Órdenes Recientes -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-shopping-cart mr-2"></i>Órdenes Recientes
+                </h2>
+                <span class="text-sm text-gray-500" id="ordenes-count">- órdenes</span>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Orden ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comprador</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Blockchain</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200" id="ordenes-table-body">
+                        <tr>
+                            <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                <i class="fas fa-spinner fa-spin mr-2"></i>Cargando órdenes...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Transacciones Blockchain -->
+        <section>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-exchange-alt mr-2"></i>Transacciones Blockchain
+                </h2>
+                <button onclick="loadDetailedTransactions()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition duration-300">
+                    <i class="fas fa-sync-alt mr-2"></i>Actualizar TXs
+                </button>
+            </div>
+            <div id="transactions-container" class="space-y-4">
+                <div class="text-center py-8">
+                    <i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i>
+                    <p class="text-gray-600 mt-2">Cargando transacciones blockchain...</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Cargar dashboard completo
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/dashboard/');
+                const data = await response.json();
+                
+                // Actualizar estadísticas
+                updateStats(data.estadisticas);
+                
+                // Actualizar información blockchain
+                updateBlockchainInfo(data.blockchain_info);
+                
+                // Actualizar productos
+                updateProducts(data.productos);
+                
+                // Actualizar órdenes
+                updateOrders(data.ordenes_recientes);
+                
+            } catch (error) {
+                console.error('Error cargando dashboard:', error);
+                alert('Error cargando dashboard: ' + error.message);
+            }
+        }
+
+        // Actualizar estadísticas
+        function updateStats(stats) {
+            const container = document.getElementById('stats-container');
+            container.innerHTML = `
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <i class="fas fa-box text-3xl text-blue-500 mb-3"></i>
+                    <h3 class="text-2xl font-bold text-gray-800">${stats.total_productos}</h3>
+                    <p class="text-gray-600">Productos Totales</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <i class="fas fa-shopping-cart text-3xl text-green-500 mb-3"></i>
+                    <h3 class="text-2xl font-bold text-gray-800">${stats.total_ordenes}</h3>
+                    <p class="text-gray-600">Órdenes Totales</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <i class="fas fa-link text-3xl text-purple-500 mb-3"></i>
+                    <h3 class="text-2xl font-bold text-gray-800">${stats.productos_blockchain}</h3>
+                    <p class="text-gray-600">En Blockchain</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <i class="fas fa-chart-line text-3xl text-orange-500 mb-3"></i>
+                    <h3 class="text-2xl font-bold text-gray-800">$${parseFloat(stats.total_ventas).toFixed(2)}</h3>
+                    <p class="text-gray-600">Ventas Totales</p>
+                </div>
+            `;
+        }
+
+        // Actualizar información blockchain
+        function updateBlockchainInfo(info) {
+            const container = document.getElementById('blockchain-info-container');
+            
+            if (!info) {
+                container.innerHTML = `
+                    <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <p class="text-yellow-700">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Información blockchain no disponible
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            if (info.connected) {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Red</h4>
+                            <p class="text-gray-600">${info.network || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Bloque Actual</h4>
+                            <p class="text-gray-600">${info.block_number || 0}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Cuenta</h4>
+                            <p class="text-xs text-gray-500 break-all">${info.default_account || 'N/A'}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Balance</h4>
+                            <p class="text-gray-600">${(info.balance_eth || 0).toFixed(4)} ETH</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Precio Gas</h4>
+                            <p class="text-gray-600">${info.gas_price ? parseFloat(info.gas_price).toFixed(2) + ' Gwei' : 'N/A'}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Cuentas</h4>
+                            <p class="text-gray-600">${info.accounts_available || 0}</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                        <p class="text-green-700 text-sm">
+                            <i class="fas fa-check-circle mr-2"></i>${info.message || 'Conectado a blockchain'}
+                        </p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-700">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>${info.message || 'No conectado a blockchain'}
+                        </p>
+                        ${info.error ? `<p class="text-red-600 text-sm mt-2">Error: ${info.error}</p>` : ''}
+                    </div>
+                `;
+            }
+        }
+
+        // Actualizar productos
+        function updateProducts(productos) {
+            document.getElementById('productos-count').textContent = `${productos.length} productos`;
+            
+            const tbody = document.getElementById('productos-table-body');
+            tbody.innerHTML = productos.map(producto => `
+                <tr class="hover:bg-gray-50 transition duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">${producto.nombre}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">$${producto.precio}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${producto.stock > 10 ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                            ${producto.stock} unidades
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        ${producto.on_blockchain ? 
+                            '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><i class="fas fa-check mr-1"></i> Sí</span>' :
+                            '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"><i class="fas fa-times mr-1"></i> No</span>'
+                        }
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${producto.blockchain_tx ? 
+                            `<span class="font-mono text-xs break-all">${producto.blockchain_tx}</span>` :
+                            'N/A'
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Actualizar órdenes
+        function updateOrders(ordenes) {
+            document.getElementById('ordenes-count').textContent = `${ordenes.length} órdenes recientes`;
+            
+            const tbody = document.getElementById('ordenes-table-body');
+            tbody.innerHTML = ordenes.map(orden => `
+                <tr class="hover:bg-gray-50 transition duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        #${orden.id}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${orden.producto_nombre}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        ${orden.comprador}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        $${orden.total}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${orden.fecha_compra}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        ${orden.on_blockchain ? 
+                            `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800" title="${orden.blockchain_tx}">
+                                <i class="fas fa-check mr-1"></i> Sí
+                            </span>` :
+                            '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800"><i class="fas fa-times mr-1"></i> No</span>'
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Cargar transacciones detalladas
+        async function loadDetailedTransactions() {
+            const container = document.getElementById('transactions-container');
+            container.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="fas fa-spinner fa-spin text-2xl text-blue-500"></i>
+                    <p class="text-gray-600 mt-2">Cargando transacciones detalladas...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/blockchain/transactions-detailed/');
+                const data = await response.json();
+                print(data)
+                if (data.total_transacciones && data.transacciones.length > 0) {
+                    container.innerHTML = data.transacciones.map(tx => `
+                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">Transacción Blockchain</h4>
+                                    <p class="text-xs text-gray-500">Bloque: ${tx.block_number}</p>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${tx.status === 'Success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                    ${tx.status}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-gray-600"><strong>Hash:</strong></p>
+                                    <p class="text-xs font-mono text-blue-600 break-all">${tx.hash}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600"><strong>De:</strong></p>
+                                    <p class="text-xs font-mono text-green-600 break-all">${tx.from}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600"><strong>Para:</strong></p>
+                                    <p class="text-xs font-mono text-purple-600 break-all">${tx.to}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600"><strong>Valor:</strong></p>
+                                    <p class="text-sm font-semibold">${tx.value_eth.toFixed(6)} ETH</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600"><strong>Gas Usado:</strong></p>
+                                    <p class="text-sm">${tx.gas_used}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600"><strong>Precio Gas:</strong></p>
+                                    <p class="text-sm">${tx.gas_price_gwei.toFixed(2)} Gwei</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = `
+                        <div class="text-center py-8">
+                            <i class="fas fa-inbox text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600">No hay transacciones recientes</p>
+                            <p class="text-sm text-gray-500 mt-2">Realiza compras en la tienda para generar transacciones</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-4"></i>
+                        <p class="text-gray-600">Error cargando transacciones</p>
+                        <p class="text-sm text-gray-500 mt-2">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Cargar todo al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+            loadDetailedTransactions();
+            
+            // Actualizar cada 30 segundos
+            setInterval(loadDashboard, 30000);
+        });
+    </script>
+</body>
+</html>
