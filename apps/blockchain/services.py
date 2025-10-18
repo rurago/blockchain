@@ -209,21 +209,49 @@ class BlockchainService:
             # Fallback a simulación
             return f"0xERROR_{int(time.time())}"
     
-    def purchase_product_on_blockchain(self, product_id, quantity, total_price):
-        """Registrar compra en blockchain Ganache"""
+    def purchase_product_on_blockchain(self, product_id, quantity, total):
+        """Generar transacción REAL en Ganache para una compra"""
         try:
-            # Para esta demo, simulamos la compra ya que nuestro contrato simple no tiene función de compra
-            tx_hash = f"0xBUY{int(time.time())}_{product_id}"
+            if not self.w3.is_connected():
+                print("❌ No conectado a Ganache")
+                return None
+                
+            # Usar la primera cuenta de Ganache
+            from_account = self.w3.eth.accounts[0]
+            to_account = self.w3.eth.accounts[1] if len(self.w3.eth.accounts) > 1 else from_account
             
-            print(f"✅ Compra registrada en blockchain: Producto {product_id}, Cantidad: {quantity}")
-            print(f"📄 TX Hash: {tx_hash}")
-            print(f"💰 Total: {total_price} ETH")
+            print(f"🔗 Creando transacción en Ganache...")
+            print(f"   De: {from_account}")
+            print(f"   Para: {to_account}")
+            print(f"   Producto ID: {product_id}, Cantidad: {quantity}, Total: ${total}")
             
-            return tx_hash
+            # Crear transacción en Ganache
+            transaction = {
+                'from': from_account,
+                'to': to_account,
+                'value': self.w3.to_wei(0.001, 'ether'),  # Valor de la transacción
+                'gas': 21000,
+                'gasPrice': self.w3.eth.gas_price,
+                'nonce': self.w3.eth.get_transaction_count(from_account),
+            }
+            
+            # Firmar y enviar transacción a Ganache
+            print("⏳ Enviando transacción a Ganache...")
+            tx_hash = self.w3.eth.send_transaction(transaction)
+            tx_receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+            
+            tx_hash_hex = self.w3.to_hex(tx_hash)
+            
+            print(f"✅ Transacción Ganache exitosa:")
+            print(f"   TX Hash: {tx_hash_hex}")
+            print(f"   Bloque: {tx_receipt.blockNumber}")
+            print(f"   Gas usado: {tx_receipt.gasUsed}")
+            
+            return tx_hash_hex
             
         except Exception as e:
-            print(f"❌ Error en compra blockchain: {e}")
-            return f"0xBUY_ERROR_{int(time.time())}"
+            print(f"❌ Error en transacción Ganache: {e}")
+            return None
     
     def get_blockchain_info(self):
         """Obtener información de la blockchain Ganache"""
