@@ -32,7 +32,7 @@ urlpatterns = [
     
     # Dashboard - en la ruta correcta
     path('dashboard/', TemplateView.as_view(template_name='dashboard.html'), name='dashboard_html'),
-    path('comprar/', views.comprar_producto_blockchain_unificado, name='comprar_blockchain'),
+    
     # APIs
     path('api/blockchain/', include('apps.blockchain.urls')),
     path('api/', include('apps.tienda.urls')),

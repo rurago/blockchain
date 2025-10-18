@@ -171,7 +171,7 @@ def comprar_producto(request):
             
             total = producto.precio * cantidad
             
-            orden = BlockchainProducto.objects.create(
+            orden = BlockchainOrden.objects.create(
                 producto=producto,
                 comprador=comprador,
                 cantidad=cantidad,

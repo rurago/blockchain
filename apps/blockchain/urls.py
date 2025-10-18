@@ -14,9 +14,7 @@ urlpatterns = [
     path('blockchain-products/', views.lista_productos, name='lista_productos_blockchain'),
     path('blockchain-products/create/', views.crear_producto, name='crear_producto_blockchain'),
     path('blockchain-products/buy/', views.comprar_producto, name='comprar_producto_blockchain'),
-    path('comprar/', views.comprar_producto_blockchain_unificado, name='comprar_blockchain'),
-
-
+    
     # Dashboard y transacciones
     path('dashboard/', views.dashboard_completo, name='dashboard_completo'),
     path('transactions-detailed/', views.transacciones_detalladas, name='transacciones_detalladas'),

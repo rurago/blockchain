@@ -189,48 +189,37 @@
         function updateBlockchainInfo(info) {
             const container = document.getElementById('blockchain-info-container');
             
-            if (!info) {
-                container.innerHTML = `
-                    <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                        <p class="text-yellow-700">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>Información blockchain no disponible
-                        </p>
-                    </div>
-                `;
-                return;
-            }
-            
             if (info.connected) {
                 container.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 mb-2">Red</h4>
-                            <p class="text-gray-600">${info.network || 'N/A'}</p>
+                            <p class="text-gray-600">${info.network}</p>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 mb-2">Bloque Actual</h4>
-                            <p class="text-gray-600">${info.block_number || 0}</p>
+                            <p class="text-gray-600">${info.block_number}</p>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 mb-2">Cuenta</h4>
-                            <p class="text-xs text-gray-500 break-all">${info.default_account || 'N/A'}</p>
+                            <p class="text-gray-600 text-sm break-all">${info.default_account}</p>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 mb-2">Balance</h4>
-                            <p class="text-gray-600">${(info.balance_eth || 0).toFixed(4)} ETH</p>
+                            <p class="text-gray-600">${info.balance_eth.toFixed(4)} ETH</p>
                         </div>
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 mb-2">Precio Gas</h4>
-                            <p class="text-gray-600">${info.gas_price ? parseFloat(info.gas_price).toFixed(2) + ' Gwei' : 'N/A'}</p>
+                            <p class="text-gray-600">${info.gas_price_gwei.toFixed(2)} Gwei</p>
                         </div>
                         <div>
-                            <h4 class="text-lg font-semibold text-gray-800 mb-2">Cuentas</h4>
-                            <p class="text-gray-600">${info.accounts_available || 0}</p>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">TXs en Bloque</h4>
+                            <p class="text-gray-600">${info.transaction_count}</p>
                         </div>
                     </div>
                     <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
                         <p class="text-green-700 text-sm">
-                            <i class="fas fa-check-circle mr-2"></i>${info.message || 'Conectado a blockchain'}
+                            <i class="fas fa-check-circle mr-2"></i>${info.message}
                         </p>
                     </div>
                 `;
@@ -240,7 +229,6 @@
                         <p class="text-red-700">
                             <i class="fas fa-exclamation-triangle mr-2"></i>${info.message || 'No conectado a blockchain'}
                         </p>
-                        ${info.error ? `<p class="text-red-600 text-sm mt-2">Error: ${info.error}</p>` : ''}
                     </div>
                 `;
             }
