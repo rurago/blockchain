@@ -59,6 +59,11 @@ DATABASES = {
     }
 }
 
+ALCHEMY_API_URL = os.getenv('ALCHEMY_API_URL', 'https://eth-sepolia.g.alchemy.com/v2/your-api-key')
+CONTRACT_ADDRESS = os.getenv('CONTRACT_ADDRESS', '')
+OWNER_PRIVATE_KEY = os.getenv('OWNER_PRIVATE_KEY', '')
+OWNER_ADDRESS = os.getenv('OWNER_ADDRESS', '')
+
 # Internationalization
 LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'UTC'
@@ -72,3 +77,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
